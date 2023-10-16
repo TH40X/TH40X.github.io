@@ -9,6 +9,7 @@ import { loadGlidersDataForChart, transformDataToOptions } from "../utils/glider
 import { polynomialInterpolation } from "../utils/maths";
 import { calculateAngleDifference, calculateDirection2, gpsDistance, parseLatitude, parseLongitude } from '../utils/spacial';
 import { timeToSeconds } from "../utils/time";
+import { useWindowWidth } from '../hooks/window-width';
 
 
 const thermalMargin = 20
@@ -416,6 +417,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export const FlightAnalysisPage: React.FC<{ glidersData: GlidersDataIndex }> = ({ glidersData }) => {
+    const { isWideScreen } = useWindowWidth()
     const [flightData, setFlightData] = useState<SpeedAndVario[]>([]);
     const [graphData, setGraphData] = useState<{ speed: number, vario?: number, gliderPolar?: number, interpolatedPolar?: number }[]>([]);
     const [gliderName, setGliderName] = useState<string>("");
@@ -486,12 +488,12 @@ export const FlightAnalysisPage: React.FC<{ glidersData: GlidersDataIndex }> = (
     };
 
     const dataMin = Math.floor(Math.min(...graphData.map(d => d.vario ?? -3), ...graphData.map(d => d.gliderPolar ?? -3)))
-    const dataMax = Math.floor(Math.max(...graphData.map(d => d.vario ?? 1), 1))
+    const dataMax = 1 //Math.floor(Math.max(...graphData.map(d => d.vario ?? 1), 1))
 
     const xMax = Math.floor(Math.max(...graphData.map(d => (d.vario || d.gliderPolar) ? d.speed : 200))) + 20
 
     return (
-        <div style={{ padding: '0 50px' }}>
+        <div style={{ padding: isWideScreen ? '0 50px' : "0 10px" }}>
             <Row>
                 <Col lg={6} xs={24}>
                     <Typography.Title level={3} style={{ textAlign: "center" }}>Flight Polar Analysis</Typography.Title>
@@ -545,11 +547,11 @@ export const FlightAnalysisPage: React.FC<{ glidersData: GlidersDataIndex }> = (
                 </Col>
 
                 <Col lg={18} xs={24}>
-                    <ResponsiveContainer width={"100%"} height={700}>
-                        <ComposedChart data={graphData} margin={{ top: 40, right: 10, bottom: 10, left: 0 }}>
+                    <ResponsiveContainer width={"100%"} height={isWideScreen ? 700 : 500}>
+                        <ComposedChart data={graphData} margin={{ top: 40, right: 10, bottom: 10, left: -20 }}>
                             <CartesianGrid strokeDasharray="3 3" fill="#fcfbfb" />
 
-                            <Legend />
+                            <Legend width={350} align='right' />
 
                             <Tooltip content={<CustomTooltip />} />
 
@@ -576,7 +578,7 @@ export const FlightAnalysisPage: React.FC<{ glidersData: GlidersDataIndex }> = (
                             >
                                 <Label
                                     value={"Sink rate (m/s)"}
-                                    offset={25}
+                                    offset={35}
                                     angle={-90}
                                     position="insideBottomLeft"
                                     fontStyle="italic"

@@ -8,6 +8,7 @@ import { GlidersDataIndex } from '../App';
 import { colors } from '../utils/colors';
 import { loadGlidersDataForChart, transformDataToOptions } from '../utils/glidersData';
 import "../styles/compare.css"
+import { useWindowWidth } from '../hooks/window-width';
 
 const filter = (inputValue: string, path: DefaultOptionType[]) => {
     const leafOption = path[path.length - 1];
@@ -19,9 +20,10 @@ const filter = (inputValue: string, path: DefaultOptionType[]) => {
 
 
 const CustomTooltip = ({ active, payload, label }: any) => {
+    const { isWideScreen } = useWindowWidth()
     if (active && payload && payload.length) {
         return (
-            <div style={{ backgroundColor: 'white', padding: '5px', border: '1px solid black' }}>
+            <div style={{ backgroundColor: 'white', padding: '5px', border: '1px solid black', fontSize: isWideScreen ? 14 : 12 }}>
                 <p style={{ margin: 0, lineHeight: 0, textAlign: "center" }}><Typography.Text strong>{`${label} km/h`}</Typography.Text></p>
                 {payload.map((entry: any) => {
                     return (
@@ -39,6 +41,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export const GlidersComparePage: React.FC<{ glidersData: GlidersDataIndex }> = ({ glidersData }) => {
+    const { isWideScreen } = useWindowWidth()
     const [data, setData] = React.useState<any[]>([]);
     const [gliderId, setGliderId] = React.useState<number>(1);
     const [glidersInput, setGlidersInput] = React.useState<{ [id: number]: { gliderName: string, color: string } }>({});
@@ -130,7 +133,7 @@ export const GlidersComparePage: React.FC<{ glidersData: GlidersDataIndex }> = (
     }, -3));
 
     return (
-        <div style={{ padding: '0 50px' }}>
+        <div style={{ padding: isWideScreen ? '0 50px' : "0 10px" }}>
             <Row>
                 <Col lg={6} xs={24}>
                     <Typography.Title level={3} style={{ textAlign: "center" }}>Gliders comparison</Typography.Title>
@@ -163,7 +166,7 @@ export const GlidersComparePage: React.FC<{ glidersData: GlidersDataIndex }> = (
                         Add glider
                     </Button>
 
-                    <Typography.Paragraph type="secondary" style={{ textAlign: "justify" }}>
+                    {isWideScreen && <Typography.Paragraph type="secondary" style={{ textAlign: "justify" }}>
                         <Typography.Text type="secondary" underline>Description:</Typography.Text>
                         <br style={{ marginBottom: 7 }} />
                         The following graph compares different polars. The polars data rely on different sources, wich are the following:
@@ -177,14 +180,14 @@ export const GlidersComparePage: React.FC<{ glidersData: GlidersDataIndex }> = (
                         <Divider />
                         If you would like to contribute to this public database, please contact
                         <a href="mailto:unified.glider.project@gmail.com"> unified.glider.project@gmail.com</a>
-                    </Typography.Paragraph>
+                    </Typography.Paragraph>}
                 </Col>
-                <Col lg={18} xs={24}>
-                    <ResponsiveContainer width={"100%"} height={700}>
-                        <LineChart data={data} margin={{ top: 40, right: 10, bottom: 10, left: 0 }}>
+                <Col span={isWideScreen ? 18 : 24}>
+                    <ResponsiveContainer width={"100%"} height={isWideScreen ? 700 : 400}>
+                        <LineChart data={data} margin={{ top: 40, right: 10, bottom: 10, left: isWideScreen ? 0 : -25 }}>
                             <CartesianGrid strokeDasharray="3 3" fill='#fcfbfb' />
                             <Tooltip content={<CustomTooltip />} />
-                            <Legend />
+                            <Legend align='right' width={350} />
 
                             <XAxis
                                 type="number"
@@ -205,7 +208,7 @@ export const GlidersComparePage: React.FC<{ glidersData: GlidersDataIndex }> = (
                             >
                                 <Label
                                     value={"Sink rate (m/s)"}
-                                    offset={25}
+                                    offset={35}
                                     angle={-90}
                                     position="insideBottomLeft"
                                     fontStyle="italic"
@@ -235,6 +238,21 @@ export const GlidersComparePage: React.FC<{ glidersData: GlidersDataIndex }> = (
                     </ResponsiveContainer>
                 </Col>
             </Row>
+            {!isWideScreen && <Typography.Paragraph type="secondary" style={{ textAlign: "justify" }}>
+                <Typography.Text type="secondary" underline>Description:</Typography.Text>
+                <br style={{ marginBottom: 7 }} />
+                The following graph compares different polars. The polars data rely on different sources, wich are the following:
+                <br />
+                <Typography.Text italic>[Manual]:</Typography.Text> Polar from the glider manual, provided by the manufacturer.
+                <br />
+                <Typography.Text italic>[XCSoar]:</Typography.Text> Polar used in XCSoar software, often the same used in LX devices.
+                <br />
+                <Typography.Text italic>[Idaflieg]:</Typography.Text> Polar determined by Idaflieg, based on real flight data.
+                <br style={{ marginBottom: 7 }} />
+                <Divider />
+                If you would like to contribute to this public database, please contact
+                <a href="mailto:unified.glider.project@gmail.com"> unified.glider.project@gmail.com</a>
+            </Typography.Paragraph>}
         </div>
     )
 }
