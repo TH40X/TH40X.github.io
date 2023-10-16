@@ -1,0 +1,7 @@
+.ant-cascader-menus {
+  height: auto !important;
+}
+
+.ant-cascader-menus .ant-cascader-menu {
+  height: 100% !important;
+}

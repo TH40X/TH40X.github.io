@@ -1,0 +1,18 @@
+:root {
+    --timeline-label-width: 20%;
+    --timeline-content-width: calc(100% - var(--timeline-label-width));
+}
+
+.ant-timeline-item-label {
+    width: calc(var(--timeline-label-width) - 12px) !important;
+}
+
+.ant-timeline-item-head, 
+.ant-timeline-item-tail {
+    inset-inline-start: var(--timeline-label-width) !important;
+}
+
+.ant-timeline-item-content {
+    width: calc(var(--timeline-content-width) - 12px) !important;
+    inset-inline-start: calc(var(--timeline-label-width) - 4px) !important;
+}
