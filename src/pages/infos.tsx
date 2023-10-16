@@ -1,5 +1,5 @@
 import { Button, Card, Col, Divider, Modal, Popover, Row, Space, Timeline, Typography } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { GliderData, GlidersDataIndex } from "../App";
 import DataDisplay from "../components/dataDisplay";
@@ -297,6 +297,11 @@ const ManufacturerData: React.FC<{ allGlidersData: GlidersDataIndex, manufacture
 
 export const InfosPage: React.FC<{ glidersData: GlidersDataIndex }> = ({ glidersData }) => {
     const { isWideScreen } = useWindowWidth();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start", padding: isWideScreen ? '0 50px' : "0 0px" }}>
             {Object.keys(glidersData).map((manufacturer) => (

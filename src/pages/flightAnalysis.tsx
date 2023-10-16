@@ -423,6 +423,10 @@ export const FlightAnalysisPage: React.FC<{ glidersData: GlidersDataIndex }> = (
     const [gliderName, setGliderName] = useState<string>("");
     const [file, setFile] = useState<any | null>(null);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const options = React.useCallback(() => {
         return transformDataToOptions(glidersData);
     }, [glidersData]);

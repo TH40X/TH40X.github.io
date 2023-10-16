@@ -9,10 +9,15 @@ import infos from "../public/infos.png";
 import FadeInFadeOut from "../transitions/fade";
 import Divider from "../components/Divider";
 import { useWindowWidth } from "../hooks/window-width";
+import { useEffect } from "react";
 
 
 export const IndexPage: React.FC = () => {
     const { isWideScreen } = useWindowWidth()
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div style={{ backgroundColor: "#001529" }}>

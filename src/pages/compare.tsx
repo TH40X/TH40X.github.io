@@ -46,6 +46,10 @@ export const GlidersComparePage: React.FC<{ glidersData: GlidersDataIndex }> = (
     const [gliderId, setGliderId] = React.useState<number>(1);
     const [glidersInput, setGlidersInput] = React.useState<{ [id: number]: { gliderName: string, color: string } }>({});
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const options = React.useCallback(() => {
         return transformDataToOptions(glidersData);
     }, [glidersData]);
