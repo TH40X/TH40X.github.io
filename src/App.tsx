@@ -2,9 +2,10 @@ import { Layout } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 import {
   Route,
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes
 } from 'react-router-dom';
+
 import { AppHeader } from './Header';
 import glidersDataRaw from './glidersData.json';
 import { IndexPage } from './pages';
