@@ -3,8 +3,7 @@ import { Content, Footer } from 'antd/es/layout/layout';
 import {
   Route,
   HashRouter as Router,
-  Routes,
-  useLocation
+  Routes
 } from 'react-router-dom';
 
 import { AppHeader } from './Header';
@@ -13,7 +12,6 @@ import { IndexPage } from './pages';
 import { GlidersComparePage } from './pages/compare';
 import { FlightAnalysisPage } from './pages/flightAnalysis';
 import { InfosPage } from './pages/infos';
-import { useEffect } from 'react';
 
 
 export interface GlidersDataIndex {
