@@ -1,5 +1,5 @@
 :root {
-    --timeline-label-width: 20%;
+    --timeline-label-width: 30%;
     --timeline-content-width: calc(100% - var(--timeline-label-width));
 }
 

@@ -20,7 +20,8 @@ export const AppHeader = () => {
     const pages: Page[] = [
         { key: "compare", label: "Gliders compare" },
         { key: "infos", label: "Gliders infos" },
-        { key: "flightAnalysis", label: "Flight analysis" }
+        { key: "flightAnalysis", label: "Flight analysis" },
+        { key: "competitonStats", label: "Competition statistics" }
     ];
 
     return (

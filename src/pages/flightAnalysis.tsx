@@ -5,7 +5,7 @@ import { DefaultOptionType } from "antd/es/select";
 import React, { useEffect, useState } from "react";
 import { CartesianGrid, ComposedChart, Label, Legend, Line, ReferenceLine, ResponsiveContainer, Scatter, Tooltip, XAxis, YAxis } from "recharts";
 import { GlidersDataIndex } from "../App";
-import { loadGlidersDataForChart, transformDataToOptions } from "../utils/glidersData";
+import { loadGlidersDataForPolarChart, transformDataToOptions } from "../utils/glidersData";
 import { polynomialInterpolation } from "../utils/maths";
 import { calculateAngleDifference, calculateDirection2, gpsDistance, parseLatitude, parseLongitude } from '../utils/spacial';
 import { timeToSeconds } from "../utils/time";
@@ -475,7 +475,7 @@ export const FlightAnalysisPage: React.FC<{ glidersData: GlidersDataIndex }> = (
     };
 
     useEffect(() => {
-        const gliderData = loadGlidersDataForChart(glidersData, gliderName)
+        const gliderData = loadGlidersDataForPolarChart(glidersData, gliderName)
         const gliderPolarData = gliderPolar(gliderData, gliderName)
 
         const data = averageVarioForSpeed(flightData)

@@ -6,6 +6,7 @@ import UGP from "../public/UGP.png";
 import analysis from "../public/analysis.png";
 import comparison from "../public/comparison.png";
 import infos from "../public/infos.png";
+import stats from "../public/stats.png";
 import FadeInFadeOut from "../transitions/fade";
 import Divider from "../components/Divider";
 import { useWindowWidth } from "../hooks/window-width";
@@ -112,6 +113,31 @@ export const IndexPage: React.FC = () => {
                 <Col span={isWideScreen ? 12 : 0} style={{ display: "flex", alignItems: "center" }}>
                     <div style={{ maxWidth: 600, cursor: "pointer" }} onClick={() => window.location.href = "/#/flightAnalysis"}>
                         <BlurryImage src={analysis} style={{ width: "90%", margin: 20, borderRadius: 20 }} />
+                    </div>
+                </Col>
+            </Row>
+
+            {!isWideScreen && <Divider color="white" size="2px" width="70%" />}
+
+            <Row justify="center">
+                <Col span={isWideScreen ? 12 : 0} style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }} order={isWideScreen ? 0 : 1}>
+                    <div style={{ maxWidth: 600, cursor: "pointer" }} onClick={() => window.location.href = "/#/competitonStats"}>
+                        <BlurryImage src={stats} style={{ width: "90%", margin: 20, borderRadius: 20 }} />
+                    </div>
+                </Col>
+                <Col span={isWideScreen ? 12 : 0} style={{ display: "flex", alignItems: "center" }} order={isWideScreen ? 1 : 0}>
+                    <div style={{ maxWidth: 450 }}>
+                        <FadeInFadeOut>
+                            <Typography.Title style={{ color: "white", textAlign: "center", cursor: "pointer" }} onClick={() => window.location.href = "/#/competitonStats"}>
+                                Competition statistics
+                            </Typography.Title>
+                        </FadeInFadeOut>
+
+                        <FadeInFadeOut>
+                            <Typography.Paragraph style={{ color: "white", textAlign: "justify", textJustify: "auto", fontSize: 22, marginLeft: 10, marginRight: 10 }}>
+                                &emsp;This graph allows you to see and compare some statistics of different gliders in competition. You can select the gliders you want to compare and the years you want to see. The graph will show you the <span style={{ fontStyle: "bold", color: "#f75757" }}>number of participations</span> of each glider for each year, and the <span style={{ fontStyle: "bold", color: "#f75757" }}>win rate</span> of each glider for each year.
+                            </Typography.Paragraph>
+                        </FadeInFadeOut>
                     </div>
                 </Col>
             </Row>

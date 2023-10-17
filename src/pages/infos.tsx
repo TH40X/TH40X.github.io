@@ -6,7 +6,7 @@ import DataDisplay from "../components/dataDisplay";
 import { useWindowWidth } from "../hooks/window-width";
 import "../styles/infos.css";
 import { colors } from "../utils/colors";
-import { loadGlidersDataForChart } from "../utils/glidersData";
+import { loadGlidersDataForPolarChart } from "../utils/glidersData";
 
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -34,7 +34,7 @@ const GliderButton: React.FC<{ allGlidersData: GlidersDataIndex, gliderData: Gli
     const [open, setOpen] = useState(false);
 
     const subGliders = gliderData.gliders as GliderData[]
-    const polarChartData = loadGlidersDataForChart(allGlidersData, ...subGliders.map((glider: GliderData) => glider.name)).filter(d => {
+    const polarChartData = loadGlidersDataForPolarChart(allGlidersData, ...subGliders.map((glider: GliderData) => glider.name)).filter(d => {
         return Object.keys(d).some(key => key !== "speed" && d[key] !== undefined)
     });
 
@@ -47,11 +47,12 @@ const GliderButton: React.FC<{ allGlidersData: GlidersDataIndex, gliderData: Gli
         bins[binLabel] = bins[binLabel] ? bins[binLabel] + 1 : 1;
     });
 
-    const winRateChartData = Object.entries(bins).map(([key, value]) => ({ name: key, value }));
+    const winRateChartData = Object.entries(bins).map(([key, value]) => ({ name: key, value })).sort((a, b) => Number(a.name.split(" - ")[0]) - Number(b.name.split(" - ")[0]));
 
     const competitonParticipationChartData = gliderData.competitonParticipation ?? [];
     const compatitionParticipationFirstYear = competitonParticipationChartData[0]?.year;
     const compatitionParticipationLastYear = competitonParticipationChartData[competitonParticipationChartData.length - 1]?.year;
+
 
     const handleCancel = () => {
         setOpen(false);
@@ -133,11 +134,11 @@ const GliderButton: React.FC<{ allGlidersData: GlidersDataIndex, gliderData: Gli
                             <Divider plain><Typography.Text strong>Specifications</Typography.Text></Divider>
 
                             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", marginBottom: 15 }}>
-                                <DataDisplay text1="Empty mass" text2="340" />
-                                <DataDisplay text1="Max mass" text2="500" />
-                                <DataDisplay text1="Max water balast" text2="120" />
-                                <DataDisplay text1="Wing area" text2="10.5" />
-                                <DataDisplay text1="Wingspan" text2="15" />
+                                <DataDisplay text1="Empty mass" text2="/" />
+                                <DataDisplay text1="Max mass" text2="/" />
+                                <DataDisplay text1="Max water balast" text2="/" />
+                                <DataDisplay text1="Wing area" text2="/" />
+                                <DataDisplay text1="Wingspan" text2="/" />
                             </div>
                         </div>
                     </Col>
@@ -230,7 +231,8 @@ const GliderButton: React.FC<{ allGlidersData: GlidersDataIndex, gliderData: Gli
                                             <Area type="monotone" dataKey="value" stackId="1" fill="blue" stroke="blue" />
                                             <XAxis
                                                 dataKey="year"
-                                                ticks={[compatitionParticipationFirstYear, compatitionParticipationLastYear]}
+                                                ticks={[compatitionParticipationFirstYear, 2020, compatitionParticipationLastYear]}
+                                                tickFormatter={(value) => value === 2020 ? "covid" : value}
                                                 interval={0}
                                             />
                                         </AreaChart>

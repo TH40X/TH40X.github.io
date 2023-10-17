@@ -30,7 +30,31 @@ export function transformDataToOptions(data: any): Option[] {
     }));
 }
 
-export const loadGlidersDataForChart = (glidersData: GlidersDataIndex, ...gliders: string[]) => {
+export function transformDataToStatsOptions(data: any): Option[] {
+    return Object.values(data).map((manufacturer: any) => ({
+        value: manufacturer.name,
+        label: manufacturer.name,
+        children: manufacturer.gliders ? manufacturer.gliders.map((gliderModel: any) => ({
+            value: gliderModel.name,
+            label: gliderModel.name,
+            children: !gliderModel.isGlider && gliderModel.gliders ? gliderModel.gliders.map((variant: any) => ({
+                value: variant.name,
+                label: variant.name,
+                children: !variant.isGlider && variant.gliders ? variant.gliders.map((wingLoad: any) => ({
+                    value: wingLoad.name,
+                    label: wingLoad.name,
+                })) : undefined
+            })) : undefined
+        })) : undefined
+    }));
+}
+
+interface YearlyValues {
+    year: number;
+    [key: string]: number;
+}
+
+export const loadGlidersDataForPolarChart = (glidersData: GlidersDataIndex, ...gliders: string[]) => {
     let speedsMap = initializeSpeedsMap(gliders);
 
     for (let manufacturerName in glidersData) {
@@ -39,6 +63,36 @@ export const loadGlidersDataForChart = (glidersData: GlidersDataIndex, ...glider
     }
 
     return Object.values(speedsMap).sort((a: any, b: any) => a.speed - b.speed);
+}
+
+export const loadGlidersDataForStatsChart = (glidersData: GlidersDataIndex, ...gliders: string[]) => {
+    var participation: YearlyValues[] = [{ "year": 1999 }, { "year": 2000 }, { "year": 2001 }, { "year": 2002 }, { "year": 2003 }, { "year": 2004 }, { "year": 2005 }, { "year": 2006 }, { "year": 2007 }, { "year": 2008 }, { "year": 2009 }, { "year": 2010 }, { "year": 2011 }, { "year": 2012 }, { "year": 2013 }, { "year": 2014 }, { "year": 2015 }, { "year": 2016 }, { "year": 2017 }, { "year": 2018 }, { "year": 2019 }, { "year": 2020 }, { "year": 2021 }, { "year": 2022 }, { "year": 2023 }];
+    
+    Object.values(glidersData).forEach(manufacturer => {
+        manufacturer.gliders?.forEach(glider => {
+            if (glider.isGlider && gliders.includes(glider.name)) {
+                glider.competitonParticipation?.forEach(year => {
+                    const index = participation.findIndex(p => p.year === year.year);
+                    if (index !== -1) {
+                        participation[index][glider.name] = year.value;
+                    }
+                })
+            } else {
+                glider.gliders?.forEach(subGlider => {
+                    if (subGlider.isGlider && gliders.includes(subGlider.name)) {
+                        subGlider.competitonParticipation?.forEach(year => {
+                            const index = participation.findIndex(p => p.year === year.year);
+                            if (index !== -1) {
+                                participation[index][subGlider.name] = year.value;
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    })
+
+    return participation;
 }
 
 

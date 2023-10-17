@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { GlidersDataIndex } from '../App';
 import { colors } from '../utils/colors';
-import { loadGlidersDataForChart, transformDataToOptions } from '../utils/glidersData';
+import { loadGlidersDataForPolarChart, transformDataToOptions } from '../utils/glidersData';
 import "../styles/compare.css"
 import { useWindowWidth } from '../hooks/window-width';
 
@@ -121,7 +121,7 @@ export const GlidersComparePage: React.FC<{ glidersData: GlidersDataIndex }> = (
 
 
     useEffect(() => {
-        const data = loadGlidersDataForChart(glidersData, ...Object.values(glidersInput).map(glider => glider.gliderName));
+        const data = loadGlidersDataForPolarChart(glidersData, ...Object.values(glidersInput).map(glider => glider.gliderName));
         setData(data);
     }, [glidersInput])
 

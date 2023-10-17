@@ -12,6 +12,7 @@ import { IndexPage } from './pages';
 import { GlidersComparePage } from './pages/compare';
 import { FlightAnalysisPage } from './pages/flightAnalysis';
 import { InfosPage } from './pages/infos';
+import { CompetitionStatsPage } from './pages/competitionStats';
 
 
 export interface GlidersDataIndex {
@@ -41,11 +42,6 @@ export interface GliderData {
 
 function App() {
   const glidersData: GlidersDataIndex = glidersDataRaw;
-  // const { pathname } = useLocation();
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, [pathname]);
 
   return (
     <Router>
@@ -58,6 +54,7 @@ function App() {
             <Route path="/compare" element={<GlidersComparePage glidersData={glidersData} />} />
             <Route path="/infos" element={<InfosPage glidersData={glidersData} />} />
             <Route path="/flightAnalysis" element={<FlightAnalysisPage glidersData={glidersData} />} />
+            <Route path="/competitonStats" element={<CompetitionStatsPage glidersData={glidersData} />} />
           </Routes>
         </Content>
 
