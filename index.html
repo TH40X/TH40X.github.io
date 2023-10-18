@@ -12,6 +12,13 @@
         padding: 0;
       }
     </style>
+    <script>
+      if (location.protocol !== "https:") {
+        location.replace(
+          `https:${location.href.substring(location.protocol.length)}`
+        );
+      }
+    </script>
     <script type="module" crossorigin src="/assets/index-bae4a8c0.js"></script>
     <link rel="stylesheet" href="/assets/index-cd0e7d93.css">
   </head>
