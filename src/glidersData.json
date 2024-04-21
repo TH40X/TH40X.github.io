@@ -3660,7 +3660,20 @@
                 "text": "Fuselage du Schempp-Hirth Discus 2 utilisé pour les versions 2AX, 2BX et 2CX"
               }
             ],
-            "gliders": []
+            "gliders": [
+              {
+                "name": "Ventus 2a (32 kg/m²) [LXNAV]",
+                "wingspan": 15,
+                "glideRatio": 45,
+                "wingSurface": 9.67,
+                "wingLoad": 32,
+                "polar": [
+                  [100, -0.6],
+                  [120, -0.72],
+                  [150, -1.09]
+                ]
+              }
+            ]
           },
           {
             "name": "Ventus 2b",

@@ -11,6 +11,27 @@ skipped = 0
 valid = 0
 
 
+def scrap_pilot():
+    pilot_id = 9421
+    url = f"https://rankingdata.fai.org/SGP_displaypilotdets.php?pilotid={pilot_id}"
+
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+
+    table = soup.findAll("table")[1]
+    for tr in table.find_all("tr")[2:]:
+        tds = tr.find_all("td")
+
+        comp_name = tds[0].find("a").text.strip()
+        comp_data = [td.text.strip() for td in tds]
+
+        print(comp_name)
+        print(comp_data)
+
+
+scrap_pilot()
+
+
 def scrape_comp(comp_id):
     global skipped, valid
 
@@ -62,36 +83,36 @@ def scrape_comp(comp_id):
     print("Done")
 
 
-t0 = time()
+# t0 = time()
 
-with ThreadPoolExecutor(max_workers=30) as executor:
-    executor.map(scrape_comp, range(1, 5000))
+# with ThreadPoolExecutor(max_workers=30) as executor:
+#     executor.map(scrape_comp, range(1, 5000))
 
-print("")
-print(f"Skipped {skipped} competitions")
-print(f"Valid {valid} competitions")
-print("")
+# print("")
+# print(f"Skipped {skipped} competitions")
+# print(f"Valid {valid} competitions")
+# print("")
 
-t1 = time()
-print(f"Time elapsed: {int(t1 - t0)} s")
-print("")
+# t1 = time()
+# print(f"Time elapsed: {int(t1 - t0)} s")
+# print("")
 
-existing_txt_files = glob.glob(f"src/gliders_scores/*.txt")
-print(len(existing_txt_files), "files to delete")
-for f in existing_txt_files:
-    os.remove(f)
+# existing_txt_files = glob.glob(f"src/gliders_scores/*.txt")
+# print(len(existing_txt_files), "files to delete")
+# for f in existing_txt_files:
+#     os.remove(f)
 
-for planeur, scores in PLANEURS.items():
-    file_name = (
-        planeur.replace(" ", "")
-        .replace("/", "")
-        .replace("-", "")
-        .replace("_", "")
-        .lower()
-    )
-    with open(f"src/gliders_scores/{file_name}.txt", "a") as f:
-        f.write(",".join(map(str, scores)))
-        f.write(",")
+# for planeur, scores in PLANEURS.items():
+#     file_name = (
+#         planeur.replace(" ", "")
+#         .replace("/", "")
+#         .replace("-", "")
+#         .replace("_", "")
+#         .lower()
+#     )
+#     with open(f"src/gliders_scores/{file_name}.txt", "a") as f:
+#         f.write(",".join(map(str, scores)))
+#         f.write(",")
 
-existing_txt_files = glob.glob(f"src/gliders_scores/*.txt")
-print(len(existing_txt_files), "files created")
+# existing_txt_files = glob.glob(f"src/gliders_scores/*.txt")
+# print(len(existing_txt_files), "files created")
